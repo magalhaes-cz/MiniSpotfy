@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotfy - Sua Música, Seu Controle</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sidebar de Navegação -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="logo">Spotfy</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="home">
+                <span class="nav-icon">🏠</span>
+                <span>Início</span>
+            </a>
+            <a href="#" class="nav-item" data-section="search">
+                <span class="nav-icon">🔍</span>
+                <span>Buscar</span>
+            </a>
+            <a href="#" class="nav-item" data-section="library">
+                <span class="nav-icon">📚</span>
+                <span>Sua Biblioteca</span>
+            </a>
+        </nav>
+        
+        <div class="playlists-section">
+            <div class="playlists-header">
+                <h2>Playlists</h2>
+                <button class="btn-create-playlist" id="createPlaylistBtn" title="Criar nova playlist">
+                    <span>+</span>
+                </button>
+            </div>
+            <ul class="playlists-list" id="playlistsList">
+                <!-- Playlists serão inseridas aqui dinamicamente -->
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <!-- Seção: Início -->
+        <section class="content-section active" id="home-section">
+            <div class="section-header">
+                <h2>Bem-vindo ao Spotfy</h2>
+                <button class="btn-upload" id="uploadBtn">
+                    <span>📁</span> Carregar Músicas
+                </button>
+            </div>
+            
+            <div class="recommendations">
+                <h3>Recomendado para você</h3>
+                <div class="music-grid" id="recommendationsGrid">
+                    <!-- Músicas recomendadas serão inseridas aqui -->
+                </div>
+            </div>
+
+            <div class="recent-plays">
+                <h3>Tocadas Recentemente</h3>
+                <div class="music-list" id="recentPlaysList">
+                    <!-- Músicas recentes serão inseridas aqui -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção: Buscar -->
+        <section class="content-section" id="search-section">
+            <div class="search-container">
+                <input type="text" 
+                       class="search-input" 
+                       id="searchInput" 
+                       placeholder="Buscar músicas, artistas ou álbuns...">
+                <button class="search-btn" id="searchBtn">🔍</button>
+            </div>
+            <div class="search-results" id="searchResults">
+                <!-- Resultados da busca serão inseridos aqui -->
+            </div>
+        </section>
+
+        <!-- Seção: Biblioteca -->
+        <section class="content-section" id="library-section">
+            <div class="section-header">
+                <h2>Sua Biblioteca</h2>
+                <div class="library-filters">
+                    <button class="filter-btn active" data-filter="all">Todas</button>
+                    <button class="filter-btn" data-filter="favorites">Favoritas</button>
+                </div>
+            </div>
+            <div class="music-library" id="musicLibrary">
+                <!-- Biblioteca de músicas será inserida aqui -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Player de Áudio (fixo na parte inferior) -->
+    <footer class="audio-player" id="audioPlayer">
+        <div class="player-info">
+            <div class="now-playing">
+                <div class="track-artwork" id="trackArtwork">🎵</div>
+                <div class="track-info">
+                    <div class="track-name" id="trackName">Nenhuma música selecionada</div>
+                    <div class="track-artist" id="trackArtist">Selecione uma música para começar</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="player-controls">
+            <div class="control-buttons">
+                <button class="control-btn" id="shuffleBtn" title="Aleatório">🔀</button>
+                <button class="control-btn" id="prevBtn" title="Anterior">⏮</button>
+                <button class="control-btn play-pause" id="playPauseBtn" title="Reproduzir">▶</button>
+                <button class="control-btn" id="nextBtn" title="Próxima">⏭</button>
+                <button class="control-btn" id="repeatBtn" title="Repetir">🔁</button>
+            </div>
+            <div class="progress-container">
+                <span class="time-current" id="timeCurrent">0:00</span>
+                <div class="progress-bar">
+                    <input type="range" 
+                           class="progress-slider" 
+                           id="progressSlider" 
+                           min="0" 
+                           max="100" 
+                           value="0">
+                </div>
+                <span class="time-total" id="timeTotal">0:00</span>
+            </div>
+        </div>
+
+        <div class="player-options">
+            <div class="volume-control">
+                <button class="control-btn" id="volumeBtn" title="Volume">🔊</button>
+                <input type="range" 
+                       class="volume-slider" 
+                       id="volumeSlider" 
+                       min="0" 
+                       max="100" 
+                       value="70">
+            </div>
+            <button class="control-btn" id="queueBtn" title="Fila de Reprodução">📋</button>
+        </div>
+    </footer>
+
+    <!-- Modal para criar playlist -->
+    <div class="modal" id="playlistModal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <h2>Criar Nova Playlist</h2>
+            <input type="text" 
+                   class="modal-input" 
+                   id="playlistNameInput" 
+                   placeholder="Nome da playlist">
+            <div class="modal-actions">
+                <button class="btn-cancel" id="cancelPlaylistBtn">Cancelar</button>
+                <button class="btn-confirm" id="confirmPlaylistBtn">Criar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para fila de reprodução -->
+    <div class="modal" id="queueModal">
+        <div class="modal-content">
+            <span class="modal-close" id="queueModalClose">&times;</span>
+            <h2>Fila de Reprodução</h2>
+            <ul class="queue-list" id="queueList">
+                <!-- Fila será inserida aqui -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Input oculto para upload de arquivos -->
+    <input type="file" 
+           id="fileInput" 
+           accept="audio/*" 
+           multiple 
+           style="display: none;">
+
+    <script src="app.js"></script>
+</body>
+</html>
+
